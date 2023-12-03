@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FlatList, Pressable, Text, TextInput, View } from "react-native";
+import { FlatList, Linking, Pressable, Text, TextInput, View } from "react-native";
 import { ResponseModel } from "./src/models/responseModel";
 import { Phonetic } from "./src/models/interfaces/phonetic";
 import { Meaning } from "./src/models/interfaces/meaning";
@@ -31,40 +31,40 @@ const App = () => {
       });
   };
 
-  const renderDefinitions = ({ item }: {item: Definition}) => (
+  const renderDefinitions = ({ item }: { item: Definition }) => (
     <View>
       <Text>Definition: {item.definition}</Text>
       {item.example ? <Text>Example: {item.example}</Text> : null}</View>
   )
-  
-  const renderPhonetics = ({ item }: {item: Phonetic}) => (
+
+  const renderPhonetics = ({ item }: { item: Phonetic }) => (
     <View>
       <Text>Phonetic: {item.text}</Text>
-      {item.audio ? <Text>Audio: {item.audio}</Text> : null }
-      
+      {item.audio ? <Text>Audio: {item.audio}</Text> : null}
+
     </View>
   )
 
-  const renderSynonims = ({ item }: {item: string[]}) => (
+  const renderSynonims = ({ item }: { item: string[] }) => (
     <View>
-      <Text>{item}</Text>      
+      <Text>{item}</Text>
     </View>
   )
 
-  const renderAntonyms = ({ item }: {item: string[]}) => (
+  const renderAntonyms = ({ item }: { item: string[] }) => (
     <View>
-      <Text>{item}</Text>      
+      <Text>{item}</Text>
     </View>
   )
 
-  const renderMeanings = ({ item }: {item: Meaning}) => (
+  const renderMeanings = ({ item }: { item: Meaning }) => (
     <View>
       <Text style={{ fontSize: 24 }}>{item.partOfSpeech}</Text>
       <FlatList data={item.definitions} renderItem={renderDefinitions} />
-      <Text  style={{ fontSize: 24 }}>Synonims</Text>
-      <FlatList data={item.synonyms} renderItem={renderSynonims} keyExtractor={(item) => item}/>
-      {item.antonyms ? <Text  style={{ fontSize: 24 }}>Antonyms</Text> : null}
-      <FlatList data={item.antonyms} renderItem={renderAntonyms} keyExtractor={(item) => item}/>
+      <Text style={{ fontSize: 24 }}>Synonims</Text>
+      <FlatList data={item.synonyms} renderItem={renderSynonims} keyExtractor={(item) => item} />
+      {item.antonyms ? <Text style={{ fontSize: 24 }}>Antonyms</Text> : null}
+      <FlatList data={item.antonyms} renderItem={renderAntonyms} keyExtractor={(item) => item} />
     </View>
   )
 
@@ -74,7 +74,7 @@ const App = () => {
     }}>
       <Text style={{ fontSize: 24 }}>Word: {item.word}</Text>
       <FlatList data={item.phonetics} renderItem={renderPhonetics} />
-      <FlatList data={item.meanings} renderItem={renderMeanings} />      
+      <FlatList data={item.meanings} renderItem={renderMeanings} />
     </View>
   );
 
@@ -95,6 +95,16 @@ const App = () => {
         <Text style={{ color: 'white' }}>Call</Text>
       </Pressable>
 
+
+      <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 8 }}>
+        <Pressable onPress={() => Linking.openURL('https://youglish.com/pronounce/' + inputText + '/english?')} >
+          <Text>YOUGLISH</Text>
+        </Pressable>
+        <Pressable>
+          <Text>I LEARNED</Text>
+        </Pressable>
+
+      </View>
 
       <FlatList
         data={data}
